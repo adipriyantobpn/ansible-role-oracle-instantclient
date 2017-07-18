@@ -1,2 +1,12 @@
 ---
 # defaults file for adipriyantobpn.oracle-instantclient
+oic_tmp_dir: /tmp
+oic_clear_installers: yes
+oic_version: "12.2"
+oic_patch_version: "0.1.0-1"
+oic_installers:
+  - "oracle-instantclient{{ oic_version }}-basic-{{ oic_version }}.{{ oic_patch_version }}.x86_64.rpm"
+  - "oracle-instantclient{{ oic_version }}-devel-{{ oic_version }}.{{ oic_patch_version }}.x86_64.rpm"
+  - "oracle-instantclient{{ oic_version }}-jdbc-{{ oic_version }}.{{ oic_patch_version }}.x86_64.rpm"
+  - "oracle-instantclient{{ oic_version }}-odbc-{{ oic_version }}.{{ oic_patch_version }}.x86_64.rpm"
+  - "oracle-instantclient{{ oic_version }}-sqlplus-{{ oic_version }}.{{ oic_patch_version }}.x86_64.rpm"

@@ -1,2 +1,5 @@
 ---
 # handlers file for adipriyantobpn.oracle-instantclient
+- name: run ldconfig
+  command: ldconfig
+  become: True

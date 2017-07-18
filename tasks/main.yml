@@ -1,2 +1,25 @@
 ---
 # tasks file for adipriyantobpn.oracle-instantclient
+- block:
+  - name: copy Oracle Instant Client installers
+    copy:
+      src: "{{ item }}"
+      dest: "{{ oic_tmp_dir }}/{{ item }}"
+    with_items: "{{ oic_installers }}"
+  - name: install Oracle Instant Client
+    yum:
+      name: "{{oic_tmp_dir}}/{{ item }}"
+      state: present
+    with_items: "{{ oic_installers }}"
+  - name: clean Oracle Instant Client
+    file:
+      path: "{{oic_tmp_dir}}/{{ item }}"
+      state: absent
+    with_items: "{{ oic_installers }}"
+    when: oic_clear_installers
+  - name: prepare ldconfig file for Oracle Instant Client
+    template:
+      src: oic_ld.conf.j2
+      dest: "/etc/ld.so.conf.d/oracle-instantclient_{{ oic_version }}.{{ oic_patch_version }}.conf"
+    notify: run ldconfig
+  become: True

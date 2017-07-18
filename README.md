@@ -1,31 +1,68 @@
-Role Name
+Ansible Role: Oracle Instant Client
 =========
 
-A brief description of the role goes here.
+An Ansible Role that to install Oracle Instant Client
+
+Before using this role, Oracle Instant Client installer files must be placed on files directory.
+Make sure that those files have same version & patch.
+
+And also make sure that `ldconfig` binary is already available in the system.
+
+You can use `yum whatprovides ldconfig` to search all packages that providing ldconfig binary.
+As on Centos/RHEL 7, ldconfig is provided by `glibc` package.
+Then use `yum install glibc`, if it is still not installed in the system.
+
+As a notice, the limitation of this role is that only RPM installer files that can be used.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role needs no special requirements, except Oracle Instant Client installers and sudo access
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Available variables are listed below, along with default values (see `defaults/main.yml`):
+
+
+```yaml
+---
+oic_tmp_dir: /tmp
+oic_clear_installers: yes
+oic_version: "12.2"
+oic_patch_version: "0.1.0-1"
+oic_installers:
+  - "oracle-instantclient{{ oic_version }}-basic-{{ oic_version }}.{{ oic_patch_version }}.x86_64.rpm"
+  - "oracle-instantclient{{ oic_version }}-devel-{{ oic_version }}.{{ oic_patch_version }}.x86_64.rpm"
+  - "oracle-instantclient{{ oic_version }}-jdbc-{{ oic_version }}.{{ oic_patch_version }}.x86_64.rpm"
+  - "oracle-instantclient{{ oic_version }}-odbc-{{ oic_version }}.{{ oic_patch_version }}.x86_64.rpm"
+  - "oracle-instantclient{{ oic_version }}-sqlplus-{{ oic_version }}.{{ oic_patch_version }}.x86_64.rpm"
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+---
+- name: Prepare CentOS 7 server
+  hosts: centos7
+  roles:
+    - role: adipriyantobpn.oracle-instantclient
+      oic_tmp_dir: /tmp
+      oic_clear_installers: no
+      oic_version: "12.2"
+      oic_patch_version: "0.1.0-1"
+      oic_installers:
+        - "oracle-instantclient{{ oic_version }}-basic-{{ oic_version }}.{{ oic_patch_version }}.x86_64.rpm"
+        - "oracle-instantclient{{ oic_version }}-devel-{{ oic_version }}.{{ oic_patch_version }}.x86_64.rpm"
+        - "oracle-instantclient{{ oic_version }}-jdbc-{{ oic_version }}.{{ oic_patch_version }}.x86_64.rpm"
+        - "oracle-instantclient{{ oic_version }}-sqlplus-{{ oic_version }}.{{ oic_patch_version }}.x86_64.rpm"
+```
 
 License
 -------
@@ -35,4 +72,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+This role was created in 2017 by [Adi Priyanto](https://github.com/adipriyantobpn) as a learning purpose for community.
